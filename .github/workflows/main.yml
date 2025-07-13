@@ -48,3 +48,6 @@ jobs:
               issue_number: context.payload.pull_request.number,
               body: comment
             });
+      - name: Run command
+        run: mvn clean install
+        continue-on-error: true
