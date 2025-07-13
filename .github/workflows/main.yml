@@ -1,14 +1,19 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [main]
+  pull_request: [main]
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.3.1
+        with:
+          persist-credentials: false
 
       - name: Set up Java
         uses: actions/setup-java@v2
@@ -18,6 +23,9 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean install -B --file pom.xml
+
+      - name: Run Test
+        run: npm run test
 
       - name: Generate test report
         run: mvn surefire-report:report-only
@@ -48,6 +56,7 @@ jobs:
               issue_number: context.payload.pull_request.number,
               body: comment
             });
+
       - name: Run command
         run: mvn clean install
         continue-on-error: true
