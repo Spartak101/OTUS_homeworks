@@ -6,9 +6,28 @@ public class DiscriminantSearch implements Discriminant {
     double c;
 
     public DiscriminantSearch(double a, double b, double c) {
-        this.a = a;
-        this.b = b;
-        this.c = c;
+        try {
+            if(a < Double.MIN_VALUE){
+                throw new Exception("а не может быть равен нулю");
+            } else
+                this.a = a;
+            this.b = b;
+            this.c = c;
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public double getA() {
+        return a;
+    }
+
+    public double getB() {
+        return b;
+    }
+
+    public double getC() {
+        return c;
     }
 
     @Override
@@ -16,7 +35,7 @@ public class DiscriminantSearch implements Discriminant {
         System.out.println("discriminant");
     }
 
-    private double[] discriminantSearch(double a, double b, double c) {
+    public double[] discriminantSearch(double a, double b, double c) {
         double[] doubles;
         double d = (b * b - 4 * a * c);
         if (d > 0) {
