@@ -1,9 +1,6 @@
 name: CI
 
-on:
-  push:
-    branches: main
-  pull_request: main
+on: [push, pull_request]
 
 jobs:
   build:
@@ -11,21 +8,16 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2.3.1
-        with:
-          persist-credentials: false
+        uses: actions/checkout@v4
 
       - name: Set up Java
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v4.5.0
         with:
           java-version: '20'
           distribution: 'adopt'
 
       - name: Build with Maven
         run: mvn clean install -B --file pom.xml
-
-      - name: Run Test
-        run: npm run test
 
       - name: Generate test report
         run: mvn surefire-report:report-only
@@ -56,7 +48,3 @@ jobs:
               issue_number: context.payload.pull_request.number,
               body: comment
             });
-
-      - name: Run command
-        run: mvn clean install
-        continue-on-error: true
