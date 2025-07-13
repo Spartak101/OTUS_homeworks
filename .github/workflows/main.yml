@@ -16,11 +16,17 @@ jobs:
           java-version: '20'
           distribution: 'adopt'
 
+      - name: Build with Maven
+        run: mvn clean install -B --file pom.xml
+
       - name: Generate test report
         run: mvn surefire-report:report-only
 
-      - name: Build with Maven
-        run: mvn clean install -B --file pom.xml
+      - name: Upload test reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: target/site/surefire-reports
 
       - name: Comment on PR
         if: github.event_name == 'pull_request'
@@ -41,11 +47,4 @@ jobs:
               repo: context.repo.repo,
               issue_number: context.payload.pull_request.number,
               body: comment
-            });  
-
-      - name: Upload test reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-reports
-          path: target/site/surefire-reports
-
+            });
