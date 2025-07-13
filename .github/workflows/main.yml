@@ -1,23 +1,26 @@
 name: CI
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Java
-      uses: actions/setup-java@v2
-      with:
-        java-version: '20'
-        distribution: 'adopt'
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '20'
+          distribution: 'adopt'
 
-    - name: Build with Maven
-      run: mvn clean install
+      - name: Build with Maven
+        run: mvn clean install -B --file pom.xml
 
-    - name: Run tests
-      run: mvn test
+      - name: Upload test reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-reports
+          path: target/surefire-reports
