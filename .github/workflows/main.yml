@@ -31,7 +31,7 @@ jobs:
         run: mvn -f untitled/pom.xml verify  # Сборка проекта и запуск тестов с помощью Maven
 
       - name: Generate test summary
-        uses: djrbliss/gha-junit-test-summary@v1
+        uses: enricogior/junit-reporter@v1
         with:
           junit_xml_files: untitled/target/surefire-reports/*.xml  # Путь к результатам тестов
           markdown_report_file: 'report.md'  # Генерируемый отчет в Markdown
