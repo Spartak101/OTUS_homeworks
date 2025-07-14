@@ -9,8 +9,8 @@ public class DiscriminantSearchTest {
     double epsilon = 0.0000000001;
 
     @Test
-    @DisplayName("Дискриминант меньше нулю")
-    public void discriminantIsLessThanZero() {
+    @DisplayName("Дискриминант меньше нуля")
+    public void discriminantIsLessThanZero() throws Exception {
         double a = 1.0;
         double b = 0.0;
         double c = 1.0;
@@ -27,7 +27,7 @@ public class DiscriminantSearchTest {
 
     @Test
     @DisplayName("Дискриминант больше нуля")
-    public void discriminantIsGreaterThanZero() {
+    public void discriminantIsGreaterThanZero() throws Exception {
         double a = 1.0;
         double b = 0.0;
         double c = -1.0;
@@ -45,7 +45,7 @@ public class DiscriminantSearchTest {
 
     @Test
     @DisplayName("Дискриминант равен нулю")
-    public void discriminantIsZero() {
+    public void discriminantIsZero() throws Exception {
         double a = 1.0;
         double b = 2.0;
         double c = 0.99999999998;
@@ -66,6 +66,43 @@ public class DiscriminantSearchTest {
         double a = 0.0;
         double b = 1.0;
         double c = 1.0;
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new DiscriminantSearch(a, b, c, epsilon);
+        });
+    }
+
+    @Test
+    @DisplayName("а не являеся числом")
+    public void theAValueIsTooSmallTest() {
+        double a = Math.sqrt(-1.0);
+        double b = 2.0;
+        double c = 1.0;
+
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new DiscriminantSearch(a, b, c, epsilon);
+        });
+    }
+
+    @Test
+    @DisplayName("b не являеся числом")
+    public void theBValueIsTooSmallTest() {
+        double a = 1.0;
+        double b = 1.0 / 0.0;
+        double c = 1.0;
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new DiscriminantSearch(a, b, c, epsilon);
+        });
+    }
+
+    @Test
+    @DisplayName("c не являеся числом")
+    public void theCValueIsTooSmallTest() {
+        double a = 1.0;
+        double b = 2.0;
+        double c = -1.0 / 0.0;
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             new DiscriminantSearch(a, b, c, epsilon);
