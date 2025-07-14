@@ -28,7 +28,7 @@ jobs:
           restore-keys: ${{ runner.os }}-maven-
 
       - name: Run tests using Maven
-        run: mvn verify  # Сборка проекта и запуск тестов с помощью Maven
+        run: mvn -f untitled/pom.xml verify  # Сборка проекта и запуск тестов с помощью Maven
 
       - name: Show test results
         if: failure()  # Если тесты провалены
