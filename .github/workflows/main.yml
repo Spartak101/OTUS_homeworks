@@ -19,6 +19,12 @@ jobs:
       - name: Build with Maven
         run: mvn clean install -B --file pom.xml
 
+      - name: Install 🔧
+        run: npm install
+
+      - name: Run Test 🔨
+        run: npm run test
+
       - name: Generate test report
         run: mvn surefire-report:report-only
 
