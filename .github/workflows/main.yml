@@ -21,7 +21,7 @@ jobs:
           distribution: 'adopt'
 
       - name: Cache Maven dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v4.2.3
         with:
           path: ~/.m2
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -30,23 +30,9 @@ jobs:
       - name: Run tests using Maven
         run: mvn -f untitled/pom.xml verify  # Сборка проекта и запуск тестов с помощью Maven
 
-      - name: Generate test summary
-        uses: enricogior/junit-reporter@v1
-        with:
-          junit_xml_files: untitled/target/surefire-reports/*.xml  # Путь к результатам тестов
-          markdown_report_file: 'report.md'  # Генерируемый отчет в Markdown
-
-      - name: Create output
-        id: create-output
-        run: echo "::set-output name=report::$(cat report.md)"
-
-      - name: Comment the pull request
-        if: github.event_name == 'pull_request'
-        uses: marocchino/sticky-pull-request-comment@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          message: |
-            #### 🚀 Тесты завершены!
-            
-            ${{ steps.create-output.outputs.report }}
+      - name: Show test results
+        if: failure()  # Если тесты провалены
+        run: |
+          cd target/surefire-reports/
+          ls -l
+          cat TEST-*.xml  # Просмотр результатов тестирования
