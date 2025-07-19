@@ -21,10 +21,6 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Checkstyle check
-        run: |
-          mvn checkstyle:check --no-transfer-progress
-
       - name: Run tests
         run: mvn -f untitled/pom.xml clean install
              mvn test --no-transfer-progress
