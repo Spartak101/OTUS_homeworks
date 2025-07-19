@@ -27,6 +27,7 @@ jobs:
 
       - name: Run tests
         run: |
+          mvn -f untitled/pom.xml
           mvn test --no-transfer-progress
         env:
           CI: true
