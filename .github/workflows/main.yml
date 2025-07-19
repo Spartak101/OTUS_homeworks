@@ -26,12 +26,11 @@ jobs:
           mvn checkstyle:check --no-transfer-progress
 
       - name: Run tests
-        run: |
-          mvn -f untitled/pom.xml
-
+        run: mvn test --no-transfer-progress
+        working-directory: ./untitled
         env:
           CI: true
 
       - name: Build application
-        run: |
-          mvn verify --no-transfer-progress
+        run: mvn verify --no-transfer-progress
+        working-directory: ./untitled
