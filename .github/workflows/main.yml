@@ -22,12 +22,14 @@ jobs:
           cache: maven
 
       - name: Run tests
-        run: mvn -f untitled/pom.xml clean install
+        run: mvn org.apache.maven.plugins:maven-compiler-plugin:compile
+             mvn -f untitled/pom.xml clean install
              mvn test --no-transfer-progress
 
         env:
           CI: true
 
       - name: Build application
-        run: mvn -f untitled/pom.xml clean install
+        run: mvn org.apache.maven.plugins:maven-compiler-plugin:compile
+             mvn -f untitled/pom.xml clean install
              mvn verify --no-transfer-progress
